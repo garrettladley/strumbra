@@ -1,20 +1,20 @@
-package stumbra_test
+package strumbra_test
 
 import (
 	"testing"
 
-	"github.com/garrettladley/stumbra"
+	"github.com/garrettladley/strumbra"
 )
 
 func TestEqualDifferentString(t *testing.T) {
 	t.Parallel()
 
-	a, err := stumbra.New("hello")
+	a, err := strumbra.New("hello")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
-	b, err := stumbra.New("world")
+	b, err := strumbra.New("world")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -31,12 +31,12 @@ func TestEqualDifferentString(t *testing.T) {
 func TestEqualSameString(t *testing.T) {
 	t.Parallel()
 
-	a, err := stumbra.New("")
+	a, err := strumbra.New("")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
-	b, err := stumbra.New("")
+	b, err := strumbra.New("")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}

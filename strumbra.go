@@ -1,4 +1,4 @@
-package stumbra
+package strumbra
 
 import (
 	"bytes"
