@@ -127,7 +127,6 @@ func BenchmarkConstructEmpty(b *testing.B) {
 			_, _ = strumbra.New("")
 		}
 	})
-
 }
 
 func BenchmarkConstructNonEmpty(b *testing.B) {

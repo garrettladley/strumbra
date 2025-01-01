@@ -88,7 +88,6 @@ func (us *UmbraString) Equals(other UmbraString) bool {
 	}
 
 	return bytes.Equal(us.suffix(), other.suffix())
-
 }
 
 func (us *UmbraString) Compare(other UmbraString) int {
