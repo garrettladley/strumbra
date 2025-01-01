@@ -1,3 +1,3 @@
 module github.com/garrettladley/strumbra
 
-go 1.22.4
+go 1.23.4

@@ -17,10 +17,12 @@ var ErrTooLong = errors.New("string is too long")
 
 // UmbraString is a string implementation that allows for the very important “short string optimization”
 // this data structure is described in this paper: https://www.cidrdb.org/cidr2020/papers/p29-neumann-cidr20.pdf
+//
+//	fmt.Println(fmt.Sprintf("%d bytes", unsafe.Sizeof(UmbraString{}))) // 16 bytes
 type UmbraString struct {
-	len      int32
-	prefix   [prefixLength]byte
-	trailing unsafe.Pointer
+	len      int32              // 4 bytes
+	prefix   [prefixLength]byte // (element value size) * (element count) = 1 * 4 = 4 bytes
+	trailing unsafe.Pointer     // 1 word
 }
 
 func New(s string) (UmbraString, error) {
@@ -48,14 +50,17 @@ func New(s string) (UmbraString, error) {
 	return us, nil
 }
 
+//go:inline
 func (us *UmbraString) Len() int {
 	return int(us.len)
 }
 
+//go:inline
 func (us *UmbraString) IsEmpty() bool {
 	return us.len == 0
 }
 
+//go:inline
 func (us *UmbraString) String() string {
 	return string(us.Bytes())
 }
@@ -67,9 +72,9 @@ func (us *UmbraString) Bytes() []byte {
 	return append(us.prefix[:], us.suffix()...)
 }
 
-func (us *UmbraString) Equal(other UmbraString) bool {
+func (us *UmbraString) Equals(other UmbraString) bool {
 	// get the first 8 bytes, this includes the length and the prefix
-	lhs := *(*[8]byte)(unsafe.Pointer(&us))
+	lhs := *(*[8]byte)(unsafe.Pointer(us))
 	rhs := *(*[8]byte)(unsafe.Pointer(&other))
 	if lhs != rhs {
 		return false
@@ -112,6 +117,7 @@ func (us *UmbraString) suffix() []byte {
 	return unsafe.Slice((*byte)(us.trailing), us.len)[prefixLength:]
 }
 
+//go:inline
 func i32Compare(a, b int32) int {
 	switch {
 	case a < b:
